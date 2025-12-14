@@ -71,8 +71,7 @@ namespace ValcharUtulek.Infrastructure.Database.Seeding
         // Přidá do databáze uživatele ze seederu, pokud ještě neexistují (podle e-mailu)
         private async Task SeedUsersAsync()
         {
-            var userSeeder = new UserSeeder(_passwordHasher);
-            var users = userSeeder.GetUsers();
+            var users = UserSeeder.GetUsers();
             int added = 0;
             int updated = 0;
 
@@ -155,19 +154,26 @@ namespace ValcharUtulek.Infrastructure.Database.Seeding
         // Přidá do databáze novinky ze seederu, pokud je tabulka prázdná
         private async Task SeedNewsAsync()
         {
-            if (!await _context.News.AnyAsync())
+            var newsItems = NewsSeeder.GetNews();
+            int addedCount = 0;
+
+            foreach (var newsItem in newsItems)
             {
-                var newsSeeder = new NewsSeeder();
-                var news = newsSeeder.GetNews();
+                if (!await _context.News.AnyAsync(n => n.Title == newsItem.Title))
+                {
+                    await _context.News.AddAsync(newsItem);
+                    addedCount++;
+                }
+            }
 
-                await _context.News.AddRangeAsync(news);
+            if (addedCount > 0)
+            {
                 await _context.SaveChangesAsync();
-
-                _logger.LogInformation("Seeded {Count} news items.", news.Count);
+                _logger.LogInformation("Seeded {Count} new news items.", addedCount);
             }
             else
             {
-                _logger.LogInformation("News already exist, skipping news seeding.");
+                _logger.LogInformation("All news items from seeder already exist, skipping news seeding.");
             }
         }
 

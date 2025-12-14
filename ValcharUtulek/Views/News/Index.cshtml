@@ -1,33 +1,40 @@
-@model IEnumerable<ValcharUtulek.Domain.Entities.News>
+﻿@model IEnumerable<ValcharUtulek.Domain.Entities.News>
 
 @{
-    ViewData["Title"] = "News";
+    ViewData["Title"] = "Novinky";
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/adoptions/index.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/news/index.css" asp-append-version="true" />
 }
 
 <h1>Novinky</h1>
+
 @if (User.IsInRole(ValcharUtulek.Domain.Entities.Role.Admin.ToString()))
 {
     <p>
-        <a asp-action="Create">Create New</a>
+        <a asp-action="Create">Vytvořit novinku</a>
     </p>
 }
+
 <div class="row">
     @foreach (var news in Model)
     {
-        <div class="col-md-3 mb-3">
-            <div class="card" style="width: 18rem;">
-                <img src="~/images/@(news.Photo ?? "default.png")" class="card-img-top" alt="@news.Title">
-                <div class="card-body">
-                    <h5 class="card-title">@news.Title</h5>
-                    <p class="card-text">
-                        @news.Content
-                    </p>
+        <div class="col-md-4 mb-4">
+            <a asp-action="Details" asp-route-id="@news.NewsId" class="card-link">
+                <div class="card">
+                    <img src="~/images/@(news.Photo ?? "default.png")" class="card-img-top" alt="@news.Title">
+                    <div class="card-body">
+                        <h5 class="card-title">@news.Title</h5>
+                        <p class="card-text">
+                            @(string.IsNullOrEmpty(news.Content) 
+                                ? "" 
+                                : news.Content.Substring(0, Math.Min(news.Content.Length, 100)) + "...")
+                        </p>
+                        <p class="card-text"><small class="text-muted">Vytvořeno: @news.DateAdded.ToShortDateString()</small></p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     }
 </div>

@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ValcharUtulek.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ValcharUtulek.Infrastructure.Database.Seeding;
 
 namespace ValcharUtulek.Infrastructure.Database
 {

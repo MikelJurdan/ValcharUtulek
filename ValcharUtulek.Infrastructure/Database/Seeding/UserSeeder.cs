@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using ValcharUtulek.Domain.Entities;
 using System.Collections.Generic;
 
@@ -6,21 +6,9 @@ namespace ValcharUtulek.Infrastructure.Database.Seeding
 {
     public class UserSeeder
     {
-        private readonly IPasswordHasher<User> _passwordHasher;
-
-        public UserSeeder(IPasswordHasher<User> passwordHasher)
+        public static List<User> GetUsers()
         {
-            _passwordHasher = passwordHasher;
-        }
-
-        public List<User> GetUsers()
-        {
-            // Create temp user objects for hashing
-            var adminUser = new User { Name = "admin" };
-            var filipUser = new User { Name = "Filip" };
-            var janaUser = new User { Name = "Jana" };
-            var pavelUser = new User { Name = "Pavel" };
-
+            // Vytvoření uživatelů s předem hashovanými hesly
             var users = new List<User>
             {
                 new User

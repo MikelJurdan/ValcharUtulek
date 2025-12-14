@@ -48,7 +48,7 @@ namespace ValcharUtulek.Controllers
         // POST: News/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nazev,Obsah,DatumPridani,Fotografie,AutorId")] News news)
+        public async Task<IActionResult> Create([Bind("Title,Content,DateAdded,Photo,AuthorId")] News news)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace ValcharUtulek.Controllers
         // POST: News/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nazev,Obsah,DatumPridani,Fotografie,AutorId")] News news)
+        public async Task<IActionResult> Edit(int id, [Bind("NewsId,Title,Content,DateAdded,Photo,AuthorId")] News news)
         {
             if (id != news.NewsId)
             {

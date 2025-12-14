@@ -1,14 +1,17 @@
-/* Rozlo�en� obsahu str�nky */
+﻿/* Rozložení obsahu stránky */
 .row {
     margin-bottom: 30px;
 }
 
-/* Mezery mezi kartama */
+/* Mezery mezi kartami */
 .card {
     margin-bottom: 20px;
+    min-width: 300px;
+    width: 100%;
+    max-width: 500px;
 }
 
-/* Adopce a darovat tlacitko */
+/* Adopce a darovat tlačítko */
 .btn-adoption {
     background: rgba(0, 128, 128, 1);
     color: rgb(255, 255, 255);

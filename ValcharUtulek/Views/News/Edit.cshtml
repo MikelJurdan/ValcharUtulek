@@ -1,12 +1,12 @@
 @model ValcharUtulek.Domain.Entities.News
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Upravit novinku";
 }
 
-<h1>Edit</h1>
+<h1>Upravit novinku</h1>
 
-<h4>News</h4>
+<h4>Novinka</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,13 +20,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control" />
+                <textarea asp-for="Content" class="form-control"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateAdded" class="control-label"></label>
-                <input asp-for="DateAdded" class="form-control" />
-                <span asp-validation-for="DateAdded" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Photo" class="control-label"></label>
@@ -34,19 +29,14 @@
                 <span asp-validation-for="Photo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AuthorId" class="control-label"></label>
-                <input asp-for="AuthorId" class="form-control" />
-                <span asp-validation-for="AuthorId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Uložit" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Zp?t na seznam</a>
 </div>
 
 @section Scripts {

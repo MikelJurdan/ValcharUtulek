@@ -19,7 +19,7 @@ body {
     margin-bottom: 60px;
 }
 
-/* Hlavní obsah - roztahuje se a tlačí patičku dolů */
+/* Hlavní obsah */
 .main-content {
     flex: 1 0 auto;
     display: flex;

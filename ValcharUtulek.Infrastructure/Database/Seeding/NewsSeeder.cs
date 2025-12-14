@@ -6,7 +6,7 @@ namespace ValcharUtulek.Infrastructure.Database.Seeding
 {
     public class NewsSeeder
     {
-        public List<News> GetNews()
+        public static List<News> GetNews()
         {
             return new List<News>
             {
