@@ -1,0 +1,115 @@
+﻿@model ValcharUtulek.Models.UserDetailViewModel
+
+@{
+    ViewData["Title"] = "Muj profil";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/users/index.css" asp-append-version="true" />
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">@ViewData["Title"]</h1>
+
+    <!-- Základní informace o uživateli -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h4 class="mb-0">Základní informace</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Jméno:</strong> @Model.Name</p>
+                    <p><strong>Email:</strong> @(Model.Email ?? "Není zadáno")</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Datum registrace:</strong> @Model.RegistrationDate.ToString("dd.MM.yyyy")</p>
+                    <p><strong>Role:</strong> @Model.Role</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Adoptovaná zvírata -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h4 class="mb-0">Moje virtuální adopce</h4>
+        </div>
+        <div class="card-body">
+            @if (Model.Adoptions.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Jméno zvírete</th>
+                                <th>Druh</th>
+                                <th>Datum adopce</th>
+                                <th>Cástka (Kc)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var adoption in Model.Adoptions)
+                            {
+                                <tr>
+                                    <td>@adoption.AnimalName</td>
+                                    <td>@(adoption.AnimalSpecies ?? "Neuvedeno")</td>
+                                    <td>@adoption.AdoptionDate.ToString("dd.MM.yyyy")</td>
+                                    <td>@adoption.Amount.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-muted mt-2">Celkem adopcí: <strong>@Model.Adoptions.Count</strong></p>
+            }
+            else
+            {
+                <p class="text-muted">Zatím nemáte žádné virtuální adopce.</p>
+                <a asp-controller="Adoptions" asp-action="Index" class="btn btn-adoption">Adoptovat zvíře</a>
+            }
+        </div>
+    </div>
+
+    <!-- Dary -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h4 class="mb-0">Moje dary</h4>
+        </div>
+        <div class="card-body">
+            @if (Model.Gifts.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Datum daru</th>
+                                <th>Částka (Kč)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var gift in Model.Gifts)
+                            {
+                                <tr>
+                                    <td>@gift.GiftDate.ToString("dd.MM.yyyy")</td>
+                                    <td>@gift.Amount.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-muted mt-2">
+                    Celkem darů: <strong>@Model.Gifts.Count</strong> | 
+                    Celková částka: <strong>@Model.Gifts.Sum(g => g.Amount).ToString("N2") Kč</strong>
+                </p>
+            }
+            else
+            {
+                <p class="text-muted">Zatím jste nepřispěli žádným darem.</p>
+                <a asp-controller="Gifts" asp-action="Create" class="btn btn-gift">Přispět darem</a>
+            }
+        </div>
+    </div>
+</div>
+
+

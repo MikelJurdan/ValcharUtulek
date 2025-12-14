@@ -1,0 +1,20 @@
+/* Hlavicka karet */
+.card-header.bg-info {
+    background: rgba(0, 128, 128, 1) !important;
+    color: rgb(255, 255, 255) !important;
+}
+
+/* Adopce a darovat tlacitko */
+.btn-gift, .btn-adoption {
+    background: rgba(0, 128, 128, 1);
+    color: rgb(255, 255, 255);
+    margin-right: 0.5rem;
+    min-width: 90px;
+    height: 40px;
+}
+
+.btn-gift:hover, .btn-adoption:hover {
+    background: rgb(255, 255, 255);
+    color: rgba(0, 128, 128, 1);
+    box-shadow: 0 0 0 0.1rem black;
+}

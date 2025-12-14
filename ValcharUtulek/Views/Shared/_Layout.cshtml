@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ValcharUtulek</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ValcharUtulek.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body class="@ViewData["BodyClass"]">
+    <nav class="navbar main-navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="/Home">
+                <img src="~/images/logo.png" alt="Logo" width="42" height="36" class="d-inline-block align-text-top">
+                <span class="brand-title ms-2">Útulek</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" aria-current="page" href="/Home">Domov</a>
+                    <a class="nav-link" href="/Adoptions">Adopce</a>
+                    <a class="nav-link" href="/Gifts">Finanční podpora</a>
+                    <a class="nav-link" href="/News">Novinky</a>
+                </div>
+                <div class="navbar-nav ms-auto">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <span class="navbar-text">
+                            <a class="nav-linkuser" href="/Users">@User.Identity.Name</a>
+                        </span>
+                        <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post">
+                            <button type="submit" class="btn btn-signout">Odhlásit se</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <button class="btn btn-register" onclick="location.href='/Account/Register'">Registrace</button>
+                        <button class="btn btn-signin" onclick="location.href='/Account/Login'">Prihlásit se</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            &copy; 2025 - ValcharUtulek
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

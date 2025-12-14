@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ValcharUtulek.Domain.Entities.Animal>
+
+@{
+    ViewData["Title"] = "Adoptions";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/adoptions/index.css" asp-append-version="true" />
+}
+
+<h1>Virtuální Adopce</h1>
+@if (User.IsInRole(ValcharUtulek.Domain.Entities.Role.Admin.ToString()))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<div class="row">
+    @foreach (var animal in Model)
+    {
+        <div class="col-md-3 mb-3">
+            <div class="card" style="width: 18rem;">
+                <img src="~/images/@(animal.Photo ?? "default.png")" class="card-img-top" alt="@animal.Name">
+                <div class="card-body">
+                    <h5 class="card-title">@animal.Name</h5>
+                    <p class="card-text">
+                        Věk: @animal.Age<br />
+                        Druh: @animal.Species
+                    </p>
+                    <a href="#" class="btn btn-adoption">Adopce</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
