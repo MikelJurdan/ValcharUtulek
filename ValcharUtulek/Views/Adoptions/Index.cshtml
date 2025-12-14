@@ -12,7 +12,7 @@
 @if (User.IsInRole(ValcharUtulek.Domain.Entities.Role.Admin.ToString()))
 {
     <p>
-        <a asp-action="Create">Create New</a>
+        <a asp-action="Create">Vytvořit adopci</a>
     </p>
 }
 <div class="row">
@@ -28,6 +28,11 @@
                         Druh: @animal.Species
                     </p>
                     <a href="#" class="btn btn-adoption">Adopce</a>
+                    @if (User.IsInRole(ValcharUtulek.Domain.Entities.Role.Admin.ToString()))
+                    {
+                        <a asp-controller="Animals" asp-action="Delete" asp-route-id="@animal.AnimalId" class="nav-link text-danger" style="display:inline;">Odstranit zvíře</a>
+                        <a asp-controller="Animals" asp-action="Edit" asp-route-id="@animal.AnimalId" class="nav-link" style="display:inline;">Upravit zvíře</a>
+                    }
                 </div>
             </div>
         </div>

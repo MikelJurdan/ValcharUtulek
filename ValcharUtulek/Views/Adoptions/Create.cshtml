@@ -1,4 +1,4 @@
-@model ValcharUtulek.Domain.Entities.Adoption
+﻿@model AdoptionCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -18,29 +18,45 @@
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AnimalId" class="control-label"></label>
-                <input asp-for="AnimalId" class="form-control" />
+                <label asp-for="AnimalId" class="control-label">Vyberte existující zvíře</label>
+                <select asp-for="AnimalId" class="form-control" asp-items="ViewBag.Animals">
+                    <option value="">Nové zvíře</option>
+                </select>
                 <span asp-validation-for="AnimalId" class="text-danger"></span>
             </div>
+            <fieldset>
+                <div class="form-group">
+                    <label asp-for="AnimalName" class="control-label"></label>
+                    <input asp-for="AnimalName" class="form-control" />
+                    <span asp-validation-for="AnimalName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AnimalSpecies" class="control-label"></label>
+                    <input asp-for="AnimalSpecies" class="form-control" />
+                    <span asp-validation-for="AnimalSpecies" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AnimalAge" class="control-label"></label>
+                    <input asp-for="AnimalAge" class="form-control" />
+                    <span asp-validation-for="AnimalAge" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AnimalPhoto" class="control-label"></label>
+                    <input asp-for="AnimalPhoto" class="form-control" />
+                    <span asp-validation-for="AnimalPhoto" class="text-danger"></span>
+                </div>
+            </fieldset>
             <div class="form-group">
                 <label asp-for="AdoptionDate" class="control-label"></label>
                 <input asp-for="AdoptionDate" class="form-control" />
                 <span asp-validation-for="AdoptionDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group mb-3">
+                <input type="submit" value="Vytvořit" class="btn btn-create" />
+                <input type="submit" value="Zpátky na seznam" class="btn btn-back" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

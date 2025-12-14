@@ -1,10 +1,10 @@
-/* Hlavicka karet */
+﻿/* Hlavicka karet */
 .card-header.bg-info {
     background: rgba(0, 128, 128, 1) !important;
     color: rgb(255, 255, 255) !important;
 }
 
-/* Adopce a darovat tlacitko */
+/* Adopce a darovat tlačítko */
 .btn-gift, .btn-adoption {
     background: rgba(0, 128, 128, 1);
     color: rgb(255, 255, 255);

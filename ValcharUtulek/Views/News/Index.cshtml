@@ -4,56 +4,30 @@
     ViewData["Title"] = "News";
 }
 
-<h1>Novinky</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Content)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateAdded)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Photo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AuthorId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateAdded)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Photo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AuthorId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.NewsId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.NewsId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.NewsId">Delete</a>
-            </td>
-        </tr>
+@section Styles {
+    <link rel="stylesheet" href="~/css/adoptions/index.css" asp-append-version="true" />
 }
-    </tbody>
-</table>
+
+<h1>Novinky</h1>
+@if (User.IsInRole(ValcharUtulek.Domain.Entities.Role.Admin.ToString()))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<div class="row">
+    @foreach (var news in Model)
+    {
+        <div class="col-md-3 mb-3">
+            <div class="card" style="width: 18rem;">
+                <img src="~/images/@(news.Photo ?? "default.png")" class="card-img-top" alt="@news.Title">
+                <div class="card-body">
+                    <h5 class="card-title">@news.Title</h5>
+                    <p class="card-text">
+                        @news.Content
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,26 @@
+﻿@model ValcharUtulek.Domain.Entities.Animal
+
+@{
+    ViewData["Title"] = "Odstranit zvíře";
+}
+
+<h1>Odstranit zvíře</h1>
+
+<h3>Opravdu chcete odstranit toto zvíře?</h3>
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Druh</dt>
+        <dd class="col-sm-10">@Model.Species</dd>
+        <dt class="col-sm-2">Věk</dt>
+        <dd class="col-sm-10">@Model.Age</dd>
+        <dt class="col-sm-2">Popis</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+    </dl>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="AnimalId" />
+        <input type="submit" value="Odstranit" class="btn btn-danger" /> 
+        <input type="submit" value="Zpět na seznam" class="btn btn-back" />
+    </form>
+</div>

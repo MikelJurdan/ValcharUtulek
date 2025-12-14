@@ -1,0 +1,46 @@
+﻿@model ValcharUtulek.Domain.Entities.Animal
+
+@{
+    ViewData["Title"] = "Upravit zvíře";
+}
+
+<h1>Upravit zvíře</h1>
+
+<div>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="AnimalId" />
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Species" class="control-label"></label>
+            <input asp-for="Species" class="form-control" />
+            <span asp-validation-for="Species" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Age" class="control-label"></label>
+            <input asp-for="Age" class="form-control" />
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="Photo" class="control-label"></label>
+            <input asp-for="Photo" class="form-control" />
+            <span asp-validation-for="Photo" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <input type="submit" value="Uložit změny" class="btn btn-save" />
+            <input type="submit" value="Zpět na seznam" class="btn btn-back" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
