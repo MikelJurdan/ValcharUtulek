@@ -4,6 +4,23 @@
     ViewData["Title"] = "Adoptions";
 }
 
+@section Scripts {
+    <script>
+        var adoptionModal = document.getElementById('adoptionModal');
+        adoptionModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var animalId = button.getAttribute('data-animal-id');
+            var animalName = button.getAttribute('data-animal-name');
+
+            var modalTitle = adoptionModal.querySelector('.modal-title');
+            var animalIdInput = adoptionModal.querySelector('#animalId');
+
+            modalTitle.textContent = 'Adoptovat ' + animalName;
+            animalIdInput.value = animalId;
+        });
+    </script>
+}
+
 @section Styles {
     <link rel="stylesheet" href="~/css/adoptions/index.css" asp-append-version="true" />
 }
@@ -25,9 +42,12 @@
                     <h5 class="card-title">@animal.Name</h5>
                     <p class="card-text">
                         Věk: @animal.Age<br />
-                        Druh: @animal.Species
+                        Druh: @animal.Species<br />
+                        Pohlaví: @animal.Gender
                     </p>
-                    <a href="#" class="btn btn-adoption">Adopce</a>
+                    <button type="button" class="btn btn-adoption" data-bs-toggle="modal" data-bs-target="#adoptionModal" data-animal-id="@animal.AnimalId" data-animal-name="@animal.Name">
+                        Adopce
+                    </button>
                     @if (User.IsInRole(ValcharUtulek.Domain.Entities.Role.Admin.ToString()))
                     {
                         <a asp-controller="Animals" asp-action="Delete" asp-route-id="@animal.AnimalId" class="nav-link text-danger" style="display:inline;">Odstranit zvíře</a>
@@ -37,4 +57,29 @@
             </div>
         </div>
     }
+</div>
+
+<!-- Okno pro adopci -->
+<div class="modal fade" id="adoptionModal" tabindex="-1" aria-labelledby="adoptionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="adoptionModalLabel">Adoptovat zvíře</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="Adoptions" asp-action="Adopt" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="animalId" name="animalId" />
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Částka, kterou chcete přispívat:</label>
+                        <input type="number" class="form-control" id="amount" name="amount" min="1" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+                    <button type="submit" class="btn btn-primary">Potvrdit adopci</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

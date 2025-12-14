@@ -21,9 +21,11 @@ namespace ValcharUtulek.Models
     {
         public int AdoptionId { get; set; }
         public int AnimalId { get; set; }
-        public string AnimalName { get; set; } = "";
+        public string? AnimalName { get; set; }
         public string? AnimalSpecies { get; set; }
         public DateOnly AdoptionDate { get; set; }
         public double Amount { get; set; }
+
+
     }
 }

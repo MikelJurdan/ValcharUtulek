@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using ValcharUtulek.Application.Abstraction;
 using ValcharUtulek.Domain.Entities;
 using ValcharUtulek.Infrastructure.Database;
@@ -102,6 +104,38 @@ namespace ValcharUtulek.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
+        }
+
+        // POST: Adoptions/Adopt
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Adopt(int animalId, double amount)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var adoption = new Adoption
+            {
+                UserId = int.Parse(userId),
+                AnimalId = animalId,
+                AdoptionDate = DateOnly.FromDateTime(DateTime.Now),
+                Amount = amount
+            };
+
+            await _adoptionService.CreateAdoptionAsync(adoption);
+
+            var animal = await _db.Animals.FindAsync(animalId);
+            if (animal != null)
+            {
+                animal.IsAvailable = false;
+                await _db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Details", "Users", new { id = userId });
         }
 
         // GET: Adoptions/Edit/5

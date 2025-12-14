@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ValcharUtulek.Application.Abstraction;
 using ValcharUtulek.Models;
+using Microsoft.EntityFrameworkCore;
+using ValcharUtulek.Infrastructure.Database;
 
 namespace ValcharUtulek.Controllers
 {
@@ -15,13 +17,15 @@ namespace ValcharUtulek.Controllers
         private readonly IAdoptionService _adoptionService;
         private readonly IGiftService _giftService;
         private readonly IAnimalService _animalService;
+        private readonly ShelterDbContext _context;
 
-        public UsersController(IUserService userService, IAdoptionService adoptionService, IGiftService giftService, IAnimalService animalService)
+        public UsersController(IUserService userService, IAdoptionService adoptionService, IGiftService giftService, IAnimalService animalService, ShelterDbContext context)
         {
             _userService = userService;
             _adoptionService = adoptionService;
             _giftService = giftService;
             _animalService = animalService;
+            _context = context;
         }
 
         // GET: Users
@@ -75,6 +79,50 @@ namespace ValcharUtulek.Controllers
             };
 
             return View(viewModel);
+        }
+        
+        public async Task<IActionResult> Details(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var adoptions = await _context.Adoptions
+                .Where(a => a.UserId == id)
+                .Include(a => a.Animal)
+                .ToListAsync();
+
+            var adoptionsViewModel = adoptions
+                .Select(a => new AdoptionDetailViewModel
+                {
+                    AdoptionId = a.AdoptionId,
+                    AnimalId = a.AnimalId,
+                    AdoptionDate = a.AdoptionDate,
+                    Amount = a.Amount,
+                    AnimalName = a.Animal?.Name ?? "Neznámé zvíře",
+                    AnimalSpecies = a.Animal?.Species ?? "Neznámý druh"
+                })
+                .ToList();
+
+            var gifts = await _context.Gifts
+                .Where(g => g.UserId == id)
+                .OrderByDescending(g => g.GiftDate)
+                .ToListAsync();
+
+            var viewModel = new UserDetailViewModel
+            {
+                UserId = user.UserId,
+                Name = user.Name,
+                Email = user.Email,
+                RegistrationDate = user.RegistrationDate,
+                Role = user.Role,
+                Adoptions = adoptionsViewModel,
+                Gifts = gifts
+            };
+
+            return View("Index", viewModel);
         }
     }
 }
