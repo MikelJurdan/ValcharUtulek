@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ValcharUtulek.Application.Abstraction;
-using ValcharUtulek.Application.ViewModels;
+using ValcharUtulek.Models;
 using ValcharUtulek.Domain.Entities;
 
 namespace ValcharUtulek.Controllers
@@ -33,7 +33,7 @@ namespace ValcharUtulek.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _accountService.RegisterAsync(model);
+                var user = await _accountService.RegisterAsync(model.Name, model.Email, model.Password);
                 if (user != null)
                 {
                     var claims = new List<Claim>
@@ -73,7 +73,7 @@ namespace ValcharUtulek.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = await _accountService.LoginAsync(model);
+                var user = await _accountService.LoginAsync(model.Name, model.Password);
                 if (user != null)
                 {
                     var claims = new List<Claim>

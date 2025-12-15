@@ -27,9 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ValcharUtulek.Application\ValcharUtulek.Application.csproj" />
     <ProjectReference Include="..\ValcharUtulek.Domain\ValcharUtulek.Domain.csproj" />
     <ProjectReference Include="..\ValcharUtulek.Infrastructure\ValcharUtulek.Infrastructure.csproj" />
+    <ProjectReference Include="..\ValcharUtulek.Application\ValcharUtulek.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\gifts\" />
   </ItemGroup>
 
 </Project>

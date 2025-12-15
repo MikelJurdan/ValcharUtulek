@@ -1,47 +1,31 @@
-﻿@model IEnumerable<ValcharUtulek.Domain.Entities.Gift>
+﻿@model ValcharUtulek.Models.GiftViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Můžete podpořit stánku ValcharUtulek</h1>
+<h1>Můžete podpořit náš Útulek</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GiftDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GiftDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.GiftId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GiftId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GiftId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-md-6 offset-md-3 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Naplnit misku</h5>
+                <form asp-action="Donate" method="post">
+                    <div class="form-group">
+                        <label asp-for="AnimalId" class="control-label">Vyberte existující zvíře</label>
+                        <select asp-for="AnimalId" class="form-control" asp-items="ViewBag.Animals">
+                            <option value="">Nové zvíře</option>
+                        </select>
+                        <span asp-validation-for="AnimalId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Částka (min. 100 Kč):</label>
+                        <input type="number" id="amount" name="Amount" class="form-control" min="100" value="100" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary-custom">Přispět</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

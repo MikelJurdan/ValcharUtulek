@@ -92,6 +92,23 @@ h1 {
     color: rgb(255, 255, 255);
 }
 
+/* Hlavní tlačítka */
+.btn-primary-custom {
+    background: rgba(0, 128, 128, 1);
+    color: rgb(255, 255, 255);
+    margin-right: 0.5rem;
+    min-width: 90px;
+    height: 40px;
+    border: 1px solid rgba(0, 128, 128, 1); /* Přidáno pro konzistenci */
+}
+
+.btn-primary-custom:hover {
+    background: rgb(255, 255, 255);
+    color: rgba(0, 128, 128, 1);
+    box-shadow: 0 0 0 0.1rem black;
+}
+
+
 /* Tlačítka */
 .btn-signin, .btn-register, .btn-signout {
     background: rgb(255, 255, 255);
@@ -99,6 +116,12 @@ h1 {
     margin-right: 0.5rem;
     min-width: 90px;
     height: 40px;
+}
+
+.btn-signin:hover, .btn-register:hover, .btn-signout:hover {
+    background: rgba(0, 128, 128, 1);
+    color: rgb(255, 255, 255);
+    box-shadow: 0 0 0 0.1rem black;
 }
 
 .btn:hover {

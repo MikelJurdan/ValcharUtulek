@@ -1,4 +1,4 @@
-﻿@model ValcharUtulek.Application.ViewModels.LoginViewModel
+﻿@model ValcharUtulek.Models.LoginViewModel
 @{
     ViewData["Title"] = "Přihlášení";
 }
@@ -20,8 +20,8 @@
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-signinvm mt-3" type="submit">Prihlásit se</button>
-                    <a asp-action="Register" class="nav-linkregister gap-3">Registrovat se</a>
+                    <button class="btn btn-primary-custom mt-3" type="submit">Přihlásit se</button>
+                    <a asp-action="Register" class="btn btn-primary-custom mt-3">Registrovat se</a>
                 </div>
             </form>
         </section>

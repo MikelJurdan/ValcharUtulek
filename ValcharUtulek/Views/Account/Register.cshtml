@@ -1,4 +1,4 @@
-@model ValcharUtulek.Application.ViewModels.RegisterViewModel
+@model ValcharUtulek.Models.RegisterViewModel
 @{
     ViewData["Title"] = "Registrace";
 }
@@ -24,7 +24,7 @@
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for= "Password" class="text-danger"></span>
             </div>
-            <button class="btn btn-registervm mt-3" type="submit">Registrovat</button>
+            <button class="btn btn-primary-custom mt-3" type="submit">Registrovat</button>
         </form>
     </div>
 </div>

@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ValcharUtulek.Application.Abstraction;
-using ValcharUtulek.Application.ViewModels;
 using ValcharUtulek.Domain.Entities;
 using ValcharUtulek.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -17,29 +16,33 @@ namespace ValcharUtulek.Application.Implementation
         private readonly IPasswordHasher<User> _hasher;
         private readonly ILogger<AccountService> _logger;
 
-        public AccountService(ShelterDbContext db, IPasswordHasher<User> hasher, ILogger<AccountService> logger)
+        public AccountService(ShelterDbContext db, IPasswordHasher<User> hasher,ILogger<AccountService> logger)
         {
             _db = db;
             _hasher = hasher;
             _logger = logger;
         }
 
-        public async Task<User?> RegisterAsync(RegisterViewModel model)
+        public async Task<User?> RegisterAsync(string name, string email, string password)
         {
-            if (await _db.Users.AnyAsync(u => u.Name == model.Name))
+            // Kontrola, zda uživatel s daným jménem již neexistuje
+            if (await _db.Users.AnyAsync(u => u.Name == name))
             {
                 return null;
             }
 
+            // Vytvoření nového uživatele
             var user = new User
             {
-                Name = model.Name,
-                Email = model.Email,
+                Name = name,
+                Email = email,
                 RegistrationDate = DateOnly.FromDateTime(DateTime.UtcNow),
                 Role = Role.Zakaznik
             };
-            user.PasswordHash = _hasher.HashPassword(user, model.Password);
+            // Hashování hesla
+            user.PasswordHash = _hasher.HashPassword(user, password);
 
+            // Přidání uživatele do databáze
             _db.Users.Add(user);
             await _db.SaveChangesAsync();
 
@@ -48,12 +51,14 @@ namespace ValcharUtulek.Application.Implementation
             return user;
         }
 
-        public async Task<User?> LoginAsync(LoginViewModel model)
+        public async Task<User?> LoginAsync(string name, string password)
         {
-            var user = await _db.Users.FirstOrDefaultAsync(u => u.Name == model.Name);
+            // Nalezení uživatele podle jména
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Name == name);
             if (user != null)
             {
-                var result = _hasher.VerifyHashedPassword(user, user.PasswordHash, model.Password);
+                // Ověření hesla
+                var result = _hasher.VerifyHashedPassword(user, user.PasswordHash, password);
                 if (result == PasswordVerificationResult.Success)
                 {
                     _logger.LogInformation("Uživatel {Name} se úspěšně přihlásil.", user.Name);
@@ -65,7 +70,7 @@ namespace ValcharUtulek.Application.Implementation
 
         public Task LogoutAsync()
         {
-            _logger.LogInformation("User logged out.");
+            _logger.LogInformation("Uživatel se odhlásil.");
             return Task.CompletedTask;
         }
     }

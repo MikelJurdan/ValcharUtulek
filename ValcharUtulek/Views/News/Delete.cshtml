@@ -1,4 +1,4 @@
-@model ValcharUtulek.Domain.Entities.News
+﻿@model ValcharUtulek.Domain.Entities.News
 
 @{
     ViewData["Title"] = "Smazat novinku";
@@ -6,7 +6,7 @@
 
 <h1>Smazat novinku</h1>
 
-<h3>Opravdu si p?ejete smazat tuto novinku?</h3>
+<h3>Opravdu si přejete smazat tuto novinku?</h3>
 <div>
     <h4>@Model.Title</h4>
     <hr />
@@ -28,6 +28,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="NewsId" />
         <input type="submit" value="Smazat" class="btn btn-danger" /> |
-        <a asp-action="Index">Zp?t na seznam</a>
+        <a asp-action="Index">Zpět na seznam</a>
     </form>
 </div>

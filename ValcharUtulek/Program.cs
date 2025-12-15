@@ -14,6 +14,7 @@ namespace ValcharUtulek
     {
         public static async Task Main(string[] args)
         {
+            // Konfigurace loggeru 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .WriteTo.Console()
@@ -22,13 +23,15 @@ namespace ValcharUtulek
 
             try
             {
-                Log.Information("Starting web application");
+                Log.Information("Spouštění webové aplikace");
 
                 var builder = WebApplication.CreateBuilder(args);
                 builder.Host.UseSerilog();
 
+                // Získání připojovacího řetězce z konfigurace
                 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+                // Konfigurace databázového kontextu
                 builder.Services.AddDbContext<ShelterDbContext>(options =>
                 {
                     var serverVersion = ServerVersion.AutoDetect(connectionString);
@@ -55,18 +58,17 @@ namespace ValcharUtulek
                         options.AccessDeniedPath = "/Account/AccessDenied";
                     });
 
-                // Konfigurace autorizace 
+                // Konfigurace autorizace
                 builder.Services.AddAuthorization(options =>
                 {
                     options.AddPolicy("AdminOnly", policy => policy.RequireRole(Role.Admin.ToString()));
                 });
 
-                // Registrace služeb
+                // Registrace služeb aplikační logiky
                 builder.Services.AddScoped<IAccountService, AccountService>();
                 builder.Services.AddScoped<IAdoptionService, AdoptionService>();
                 builder.Services.AddScoped<IAnimalService, AnimalService>();
                 builder.Services.AddScoped<IGiftService, GiftService>();
-                builder.Services.AddScoped<IHomeService, HomeService>();
                 builder.Services.AddScoped<INewsService, NewsService>();
                 builder.Services.AddScoped<IUserService, UserService>();
 
@@ -90,15 +92,15 @@ namespace ValcharUtulek
                     catch (Exception ex)
                     {
                         var logger = services.GetRequiredService<ILogger<Program>>();
-                        logger.LogError(ex, "An error occurred while initializing the database.");
+                        logger.LogError(ex, "Došlo k chybě při inicializaci databáze.");
                         throw;
                     }
                 }
 
-                // Konfigurace HTTP žádostí
+                // Konfigurace HTTP pipeline
                 if (!app.Environment.IsDevelopment())
                 {
-                    app.UseExceptionHandler("/Home/Error");
+                    app.UseExceptionHandler("/Home/Index");
                     app.UseHsts();
                 }
 
@@ -108,6 +110,7 @@ namespace ValcharUtulek
                 app.UseAuthentication();
                 app.UseAuthorization();
 
+                // Mapování výchozí trasy pro kontrolery
                 app.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -116,7 +119,7 @@ namespace ValcharUtulek
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Application terminated unexpectedly");
+                Log.Fatal(ex, "Aplikace byla neočekávaně ukončena");
             }
             finally
             {

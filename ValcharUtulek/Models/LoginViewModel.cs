@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ValcharUtulek.Application.ViewModels
+namespace ValcharUtulek.Models
 {
     public class LoginViewModel
     {

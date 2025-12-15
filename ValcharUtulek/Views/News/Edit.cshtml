@@ -1,4 +1,4 @@
-@model ValcharUtulek.Domain.Entities.News
+﻿@model ValcharUtulek.Domain.Entities.News
 
 @{
     ViewData["Title"] = "Upravit novinku";
@@ -29,14 +29,14 @@
                 <span asp-validation-for="Photo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Ulo�it" class="btn btn-primary" />
+                <input type="submit" value="Uložit" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Zp?t na seznam</a>
+    <a asp-action="Index">Zpět na seznam</a>
 </div>
 
 @section Scripts {
